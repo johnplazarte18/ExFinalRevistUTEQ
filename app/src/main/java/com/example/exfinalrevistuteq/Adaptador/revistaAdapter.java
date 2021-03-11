@@ -40,7 +40,6 @@ public class revistaAdapter extends RecyclerView.Adapter<revistaAdapter.RevistaV
         Revista usuario = lstRevista.get(position);
 
         holder.textViewDescripcion.setText(usuario.getDescripcion());
-        holder.textViewPortada.setText(usuario.getPortada());
 
         Glide.with(Ctx)
                 .load(usuario.getPortada())
@@ -55,16 +54,16 @@ public class revistaAdapter extends RecyclerView.Adapter<revistaAdapter.RevistaV
     }
 
 
-    class RevistaViewHolder extends PlaceHolderView.ViewHolder {
+    class RevistaViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewDescripcion, textViewPortada;
+        TextView textViewDescripcion;
         ImageView imageView;
 
         public RevistaViewHolder(View itemView) {
             super(itemView);
 
             textViewDescripcion= itemView.findViewById(R.id.txtDescripcion);
-            textViewPortada = itemView.findViewById(R.id.imgPortada);
+            imageView = itemView.findViewById(R.id.imgPortada);
         }
     }
 

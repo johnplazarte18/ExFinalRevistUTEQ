@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <com.mindorks.placeholderview.PlaceHolderView
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ltrevistas"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"/>
+        android:layout_height="match_parent" />
 </RelativeLayout>

@@ -1,7 +1,10 @@
 package com.example.exfinalrevistuteq;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -24,16 +27,16 @@ import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity implements Asynchtask {
 
-    private PlaceHolderView mGalleryView;
+    RecyclerView rcvrevistas;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mGalleryView=(PlaceHolderView)findViewById(R.id.ltrevistas);
-        mGalleryView.getBuilder()
-                .setHasFixedSize(false)
-                .setItemViewCacheSize(10)
-                .setLayoutManager(new GridLayoutManager(this, 3));
+
+        rcvrevistas=(RecyclerView) findViewById(R.id.ltrevistas);
+        rcvrevistas.setHasFixedSize(true);
+        rcvrevistas.setLayoutManager(new LinearLayoutManager(this));
+        rcvrevistas.setItemAnimator(new DefaultItemAnimator());
 
         Map<String, String> datos = new HashMap<String, String>();
         WebService ws= new WebService("https://revistas.uteq.edu.ec/ws/journals.php",
@@ -53,9 +56,9 @@ public class MainActivity extends AppCompatActivity implements Asynchtask {
 
             lstRevistas = Revista.JsonObjectsBuild(JSONRevistas);
 
-            revistaAdapter adaptadorRev = new revistaAdapter(getApplicationContext(), lstRevistas);
+            revistaAdapter adaptadorRev = new revistaAdapter(this, lstRevistas);
 
-            mGalleryView.addView(adaptadorRev);
+            rcvrevistas.setAdapter(adaptadorRev);
 
 
 
