@@ -36,9 +36,13 @@ dependencies {
     testImplementation 'junit:junit:4.+'
 
     //noinspection GradleCompatible
-    implementation 'com.android.support:recyclerview-v7:27.1.0'
-    implementation project(":placeholderview")
-    annotationProcessor project(':placeholderview-compiler')
+    compile 'com.mindorks.android:placeholderview:1.0.3'
+    annotationProcessor 'com.mindorks.android:placeholderview-compiler:1.0.3'
+    // RecyclerView dependency is added to override the
+    // default 25.4.1 RecyclerView dependency used by placeholderview.
+    // If you are using the support libraries other than 25.x in the project
+    //noinspection GradleCompatible
+    compile 'com.android.support:recyclerview-v7:27.1.0' // example: 27.1.0
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

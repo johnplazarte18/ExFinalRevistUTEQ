@@ -4,14 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.mindorks.placeholderview.PlaceHolderView;
+public class EdicionPublicada extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-    private PlaceHolderView mGalleryView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_edicion_publicada);
     }
 }
