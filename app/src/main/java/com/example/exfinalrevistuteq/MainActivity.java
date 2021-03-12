@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.exfinalrevistuteq.Adaptador.revistaAdapter;
 import com.example.exfinalrevistuteq.Model.Revista;
 import com.example.exfinalrevistuteq.WebService.Asynchtask;
 import com.example.exfinalrevistuteq.WebService.WebService;
@@ -27,16 +29,18 @@ import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity implements Asynchtask {
 
-    RecyclerView rcvrevistas;
+    PlaceHolderView phvGallery;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        rcvrevistas=(RecyclerView) findViewById(R.id.ltrevistas);
-        rcvrevistas.setHasFixedSize(true);
-        rcvrevistas.setLayoutManager(new LinearLayoutManager(this));
-        rcvrevistas.setItemAnimator(new DefaultItemAnimator());
+        phvGallery = (PlaceHolderView)findViewById(R.id.phv_gallery);
+        phvGallery.getBuilder()
+                .setHasFixedSize(false)
+                .setItemViewCacheSize(3)
+                .setLayoutManager(new GridLayoutManager(this, 1));
+
 
         Map<String, String> datos = new HashMap<String, String>();
         WebService ws= new WebService("https://revistas.uteq.edu.ec/ws/journals.php",
@@ -44,27 +48,24 @@ public class MainActivity extends AppCompatActivity implements Asynchtask {
         ws.execute("GET");
 
     }
+    public void btEnviar(View view){
+        Intent intent = new Intent(MainActivity.this, VolumenPublicado.class);
+        TextView txtID = (TextView) findViewById(R.id.txtID);
+        Bundle b = new Bundle();
+        b.putString("IDRevista", txtID.getText().toString());
+        intent.putExtras(b);
+        startActivity(intent);
+    }
 
 
     @Override
     public void processFinish(String result) throws JSONException {
-        ArrayList<Revista> lstRevistas = new ArrayList<Revista>();
+        JSONArray jsonArray = new JSONArray(result);
 
-        try {
-
-            JSONArray JSONRevistas=  new JSONArray(result);
-
-            lstRevistas = Revista.JsonObjectsBuild(JSONRevistas);
-
-            revistaAdapter adaptadorRev = new revistaAdapter(this, lstRevistas);
-
-            rcvrevistas.setAdapter(adaptadorRev);
-
-
-
-        }catch (JSONException e)
-        {
-            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+        for (int i = 0; i < jsonArray.length(); i++){
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            this.phvGallery.addView(new Revista(getApplicationContext(), jsonObject));
         }
+
     }
 }
