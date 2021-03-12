@@ -3,7 +3,10 @@ package com.example.exfinalrevistuteq;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.exfinalrevistuteq.Model.Revista;
@@ -49,5 +52,13 @@ public class VolumenPublicado extends AppCompatActivity implements Asynchtask {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             this.phv_volumen.addView(new Volumen(getApplicationContext(), jsonObject));
         }
+    }
+    public void btEnviarEdicion(View view){
+        Intent intent = new Intent(VolumenPublicado.this, EdicionPublicada.class);
+        TextView txtID = (TextView) findViewById(R.id.txtIDVolumen);
+        Bundle b = new Bundle();
+        b.putString("IDVolumen", txtID.getText().toString());
+        intent.putExtras(b);
+        startActivity(intent);
     }
 }
